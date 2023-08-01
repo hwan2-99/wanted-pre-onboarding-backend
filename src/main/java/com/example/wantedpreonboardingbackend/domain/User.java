@@ -1,7 +1,7 @@
 package com.example.wantedpreonboardingbackend.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,11 +22,22 @@ public class User {
     @Column(length = 45, nullable = false)
     private String email;
 
-    @Column(length = 45, nullable = false)
+    @Column(length = 100, nullable = false)
     private String password;
 
     @Column(length = 45, nullable = false)
     private String name;
     @OneToMany(mappedBy = "user")
     private List<Post> post = new ArrayList<>();
+
+    @Builder
+    public User(String email, String password, String name){
+        this.email = email;
+        this.password = password;
+        this.name = name;
+    }
+
+    public void encodePassword(String encodedPassword){
+        this.password = encodedPassword;
+    }
 }
