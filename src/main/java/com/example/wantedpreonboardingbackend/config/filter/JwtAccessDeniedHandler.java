@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JwtAccessDeniedHandler implements AccessDeniedHandler {// 접근할 때 권한을 충족시키지 못할 때 작동됨
+public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
 
     @Override

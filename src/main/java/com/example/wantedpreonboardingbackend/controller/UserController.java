@@ -1,7 +1,9 @@
 package com.example.wantedpreonboardingbackend.controller;
 
 import com.example.wantedpreonboardingbackend.dto.JoinRequestDto;
-import com.example.wantedpreonboardingbackend.dto.ResponseDto;
+import com.example.wantedpreonboardingbackend.dto.JoinResponseDto;
+import com.example.wantedpreonboardingbackend.dto.LoginRequestDto;
+import com.example.wantedpreonboardingbackend.dto.LoginTokenResponseDto;
 import com.example.wantedpreonboardingbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +22,14 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signUp(@Valid @RequestBody JoinRequestDto joinRequestDto) {
-        ResponseDto response = userService.join(joinRequestDto);
+    public ResponseEntity<JoinResponseDto> signUp(@Valid @RequestBody JoinRequestDto joinRequestDto) {
+        JoinResponseDto response = userService.join(joinRequestDto);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginTokenResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        log.info("con");
+        LoginTokenResponseDto response = userService.login(loginRequestDto);
         return ResponseEntity.ok(response);
     }
 }

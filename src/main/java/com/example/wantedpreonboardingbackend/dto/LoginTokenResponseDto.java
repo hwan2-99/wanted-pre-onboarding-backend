@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ResponseDto {
-    private Long id;
+public class LoginTokenResponseDto {
     private String email;
-    private String name;
+    private String accessToken;
+    private String refreshToken;
 }
