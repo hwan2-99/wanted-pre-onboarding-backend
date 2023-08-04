@@ -29,19 +29,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/user/**").permitAll() // 회원가입 엔드포인트는 누구나 접근 가능
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, userRepository), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 .accessDeniedHandler(new JwtAccessDeniedHandler())
                 .and()
+                .authorizeRequests()
+                .antMatchers("/user/**").permitAll()
+                .antMatchers("/post/**").authenticated() // 게시글 작성은 인증된 사용자만 접근 가능
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, userRepository), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){

@@ -7,8 +7,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,11 +22,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String PREFIX_TOKEN = "Bearer ";
 
@@ -38,12 +44,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     throw new ExpiredJwtException(null, null, "JWT 토큰이 만료됬습니다.");
                 }
                 String username = jwtProvider.getUsernameFromToken(token);
+                log.info("name:{}",username);
 
                 User user = userRepository.findByEmail(username);
                 if (user == null) {
-                    throw new RuntimeException("User not found: " + username);
+                    throw new RuntimeException("해당하는 유저가없음: " + username);
                 }
-                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null);
+                // 변경: 기본 권한 "ROLE_USER"를 부여
+                List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("Authentication successful for user: {}", username);
             }
@@ -52,13 +63,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("JWT 토큰이 만료되었습니다.");
             log.warn("JWT 토큰이 만료됬습니다.");
-            // 예외를 처리하는 로직 추가 가능
         }
         catch (SignatureException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("서명이 안된 토큰입니다.");
             log.warn("서명이 안된 토크입니다.");
-            // 예외를 처리하는 로직 추가 가능
         }
         filterChain.doFilter(request, response);
     }

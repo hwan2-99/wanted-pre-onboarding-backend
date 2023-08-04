@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -18,6 +19,11 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtProvider {
+    @Value("${jwt.access-token.expire-length}")
+    private long accessTokenExpiredIn;
+
+    @Value("${jwt.refresh-token.expire-length}")
+    private long refreshTokenExpiredIn;
     @Value("${jwt.token.secret-key}")
     private String secretKey;
 
@@ -30,7 +36,7 @@ public class JwtProvider {
     public String createAccessToken(String payload) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
-        Date validity = new Date(now.getTime());
+        Date validity = new Date(now.getTime() + accessTokenExpiredIn);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
@@ -38,6 +44,7 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
     public String createRefreshToken() {
         byte[] array = new byte[7];
         new Random().nextBytes(array);
@@ -45,7 +52,7 @@ public class JwtProvider {
 
         Claims claims = Jwts.claims().setSubject(randomString);
         Date now = new Date();
-        Date validity = new Date(now.getTime());
+        Date validity = new Date(now.getTime() + refreshTokenExpiredIn);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)

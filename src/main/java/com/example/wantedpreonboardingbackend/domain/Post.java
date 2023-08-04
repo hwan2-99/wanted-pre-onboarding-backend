@@ -2,6 +2,7 @@ package com.example.wantedpreonboardingbackend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 public class Post {
 
@@ -30,4 +32,6 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+
 }
