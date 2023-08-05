@@ -42,7 +42,6 @@ public class UserService {
     }
 
     public LoginTokenResponseDto login(LoginRequestDto loginRequestDto) {
-        log.info("ser");
         User user = userRepository.findByEmail(loginRequestDto.getEmail());
         log.info("이메일: {}",loginRequestDto.getEmail());
 

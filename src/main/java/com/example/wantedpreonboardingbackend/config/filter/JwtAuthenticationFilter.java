@@ -50,11 +50,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (user == null) {
                     throw new RuntimeException("해당하는 유저가없음: " + username);
                 }
-                // 변경: 기본 권한 "ROLE_USER"를 부여
+
                 List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
-                Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("Authentication successful for user: {}", username);
             }

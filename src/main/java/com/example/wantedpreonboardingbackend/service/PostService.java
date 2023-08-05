@@ -22,6 +22,7 @@ public class PostService {
 
     public PostResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        log.info("username:{}",user.getName());
 
         Post post = Post.builder()
                 .title(postWriteRequestDto.getTitle())
