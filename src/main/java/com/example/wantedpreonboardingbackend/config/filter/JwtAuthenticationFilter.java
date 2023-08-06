@@ -1,5 +1,6 @@
 package com.example.wantedpreonboardingbackend.config.filter;
 
+import com.example.wantedpreonboardingbackend.domain.PrincipalDetails;
 import com.example.wantedpreonboardingbackend.domain.User;
 import com.example.wantedpreonboardingbackend.repository.UserRepository;
 import com.example.wantedpreonboardingbackend.util.JWT.JwtProvider;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
+@Component
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -51,9 +53,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     throw new RuntimeException("해당하는 유저가없음: " + username);
                 }
 
-                List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-
-                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                PrincipalDetails principalDetails = new PrincipalDetails(user);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("Authentication successful for user: {}", username);
             }
