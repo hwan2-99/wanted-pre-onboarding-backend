@@ -1,10 +1,7 @@
 package com.example.wantedpreonboardingbackend.controller;
 
 import com.example.wantedpreonboardingbackend.domain.PrincipalDetails;
-import com.example.wantedpreonboardingbackend.dto.post.PostDetailResponseDto;
-import com.example.wantedpreonboardingbackend.dto.post.PostPaginationResponseDto;
-import com.example.wantedpreonboardingbackend.dto.post.PostResponseDto;
-import com.example.wantedpreonboardingbackend.dto.post.PostWriteRequestDto;
+import com.example.wantedpreonboardingbackend.dto.post.*;
 import com.example.wantedpreonboardingbackend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,15 +42,18 @@ public class PostController {
         return ResponseEntity.ok(postDetail);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<PostResponseDto> updatePost(
-            @AuthenticationPrincipal PrincipalDetails principalDetail,
-            @PathVariable Long id,
-            @RequestBody PostWriteRequestDto postWriteRequestDto) {
+    public ResponseEntity<PostResponseDto> updatePost(@AuthenticationPrincipal PrincipalDetails principalDetail, @PathVariable Long id, @RequestBody PostWriteRequestDto postWriteRequestDto) {
 
         Long userId = principalDetail.getUser().getId();
 
         PostResponseDto updatedPost = postService.updatePost(userId, id, postWriteRequestDto);
 
         return ResponseEntity.ok(updatedPost);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PostDeleteResponseDto> deletePost(@AuthenticationPrincipal PrincipalDetails principalDetail,@PathVariable Long id) {
+        Long userId = principalDetail.getUser().getId();
+        PostDeleteResponseDto responseDto = postService.deletePost(id, userId);
+        return ResponseEntity.ok(responseDto);
     }
 }

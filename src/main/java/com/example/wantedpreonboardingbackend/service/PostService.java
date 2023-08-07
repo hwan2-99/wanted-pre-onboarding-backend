@@ -76,7 +76,6 @@ public class PostService {
             throw new EmptyResultDataAccessException("해당하는 id의 게시글이 존재하지 않습니다. " + id,1);
         }
 
-
         post.setTitle(postWriteRequestDto.getTitle());
         post.setContent(postWriteRequestDto.getContent());
         post.setUpdatedAt(LocalDateTime.now());
@@ -93,4 +92,16 @@ public class PostService {
                 .build();
     }
 
+    public PostDeleteResponseDto deletePost(Long id, Long userId){
+        Post post = postRepository.findByIdAndUserId(id,userId);
+        if (post == null) {
+            throw new EmptyResultDataAccessException("해당하는 id의 게시글이 존재하지 않습니다. " + id,1);
+        }
+        postRepository.delete(post);
+
+        return PostDeleteResponseDto.builder()
+                .id(post.getId())
+                .message("게시글 삭제가 완료되었습니다.")
+                .build();
+    }
 }
