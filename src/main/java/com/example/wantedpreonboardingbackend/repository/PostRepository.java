@@ -13,4 +13,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Post findPostById(Long id);
     @Query("select p from Post p order by p.id desc")
     Slice<Post> findAllPostsSlice(Pageable pageable);
+    @Query("select p from Post p where p.id = :id and p.user.id = :userId")
+    Post findByIdAndUserId(Long id, Long userId);
 }

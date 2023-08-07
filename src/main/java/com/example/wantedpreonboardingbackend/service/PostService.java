@@ -7,6 +7,7 @@ import com.example.wantedpreonboardingbackend.repository.PostRepository;
 import com.example.wantedpreonboardingbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,8 @@ public class PostService {
                 .id(savedPost.getId())
                 .title(savedPost.getTitle())
                 .content(savedPost.getContent())
+                .createdAt(savedPost.getCreatedAt())
+                .updatedAt(savedPost.getUpdatedAt())
                 .build();
     }
 
@@ -63,6 +66,30 @@ public class PostService {
                 .content(post.getContent())
                 .name(post.getUser().getName())
                 .createdAt(post.getCreatedAt())
+                .build();
+    }
+
+    public PostResponseDto updatePost(Long userId, Long id, PostWriteRequestDto postWriteRequestDto) {
+        Post post = postRepository.findByIdAndUserId(id, userId);
+
+        if (post == null) {
+            throw new EmptyResultDataAccessException("해당하는 id의 게시글이 존재하지 않습니다. " + id,1);
+        }
+
+
+        post.setTitle(postWriteRequestDto.getTitle());
+        post.setContent(postWriteRequestDto.getContent());
+        post.setUpdatedAt(LocalDateTime.now());
+
+        // 변경 사항을 저장
+        postRepository.save(post);
+
+        return PostResponseDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
                 .build();
     }
 

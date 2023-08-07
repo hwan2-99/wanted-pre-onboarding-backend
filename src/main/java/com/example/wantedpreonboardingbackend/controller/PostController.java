@@ -44,4 +44,16 @@ public class PostController {
         PostDetailResponseDto postDetail = postService.getPostDetailById(id);
         return ResponseEntity.ok(postDetail);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponseDto> updatePost(
+            @AuthenticationPrincipal PrincipalDetails principalDetail,
+            @PathVariable Long id,
+            @RequestBody PostWriteRequestDto postWriteRequestDto) {
+
+        Long userId = principalDetail.getUser().getId();
+
+        PostResponseDto updatedPost = postService.updatePost(userId, id, postWriteRequestDto);
+
+        return ResponseEntity.ok(updatedPost);
+    }
 }

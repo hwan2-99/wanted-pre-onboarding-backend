@@ -1,19 +1,16 @@
 package com.example.wantedpreonboardingbackend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Data
 public class Post {
 
     @Id
