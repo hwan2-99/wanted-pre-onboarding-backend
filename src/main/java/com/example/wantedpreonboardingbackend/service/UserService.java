@@ -1,10 +1,10 @@
 package com.example.wantedpreonboardingbackend.service;
 
 import com.example.wantedpreonboardingbackend.domain.User;
-import com.example.wantedpreonboardingbackend.dto.JoinRequestDto;
-import com.example.wantedpreonboardingbackend.dto.JoinResponseDto;
-import com.example.wantedpreonboardingbackend.dto.LoginRequestDto;
-import com.example.wantedpreonboardingbackend.dto.LoginTokenResponseDto;
+import com.example.wantedpreonboardingbackend.dto.user.JoinRequestDto;
+import com.example.wantedpreonboardingbackend.dto.user.JoinResponseDto;
+import com.example.wantedpreonboardingbackend.dto.user.LoginRequestDto;
+import com.example.wantedpreonboardingbackend.dto.user.LoginTokenResponseDto;
 import com.example.wantedpreonboardingbackend.repository.UserRepository;
 import com.example.wantedpreonboardingbackend.util.JWT.JwtProvider;
 import lombok.RequiredArgsConstructor;

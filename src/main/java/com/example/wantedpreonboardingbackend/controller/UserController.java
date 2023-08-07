@@ -1,9 +1,9 @@
 package com.example.wantedpreonboardingbackend.controller;
 
-import com.example.wantedpreonboardingbackend.dto.JoinRequestDto;
-import com.example.wantedpreonboardingbackend.dto.JoinResponseDto;
-import com.example.wantedpreonboardingbackend.dto.LoginRequestDto;
-import com.example.wantedpreonboardingbackend.dto.LoginTokenResponseDto;
+import com.example.wantedpreonboardingbackend.dto.user.JoinRequestDto;
+import com.example.wantedpreonboardingbackend.dto.user.JoinResponseDto;
+import com.example.wantedpreonboardingbackend.dto.user.LoginRequestDto;
+import com.example.wantedpreonboardingbackend.dto.user.LoginTokenResponseDto;
 import com.example.wantedpreonboardingbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

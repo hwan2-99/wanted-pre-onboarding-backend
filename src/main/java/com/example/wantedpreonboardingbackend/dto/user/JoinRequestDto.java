@@ -1,4 +1,4 @@
-package com.example.wantedpreonboardingbackend.dto;
+package com.example.wantedpreonboardingbackend.dto.user;
 
 import com.example.wantedpreonboardingbackend.domain.User;
 import lombok.Builder;

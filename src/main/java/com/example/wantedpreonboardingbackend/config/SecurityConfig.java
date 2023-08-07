@@ -42,7 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("/post/**").authenticated() // 게시글 작성은 인증된 사용자만 접근 가능
+                .antMatchers("/post/all").permitAll()
+                .antMatchers("/post/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
