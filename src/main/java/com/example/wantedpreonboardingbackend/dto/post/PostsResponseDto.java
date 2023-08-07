@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class PostsResponseDto {
     private long id;
     private String title;
-    private String content;
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -24,7 +23,6 @@ public class PostsResponseDto {
                 .id(post.getId())
                 .name(post.getUser().getName())
                 .title(post.getTitle())
-                .content(post.getContent())
                 .createdAt(post.getCreatedAt())
                 .build();
     }
