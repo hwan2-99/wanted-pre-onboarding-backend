@@ -1,8 +1,10 @@
 package com.example.wantedpreonboardingbackend.dto.user;
 
 import com.example.wantedpreonboardingbackend.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +13,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Builder
+@NoArgsConstructor@AllArgsConstructor
 public class JoinRequestDto {
 
     @NotBlank(message = "이메일은 필수 입력 항목입니다.")
