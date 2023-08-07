@@ -1,6 +1,7 @@
 package com.example.wantedpreonboardingbackend.controller;
 
 import com.example.wantedpreonboardingbackend.domain.PrincipalDetails;
+import com.example.wantedpreonboardingbackend.dto.post.PostDetailResponseDto;
 import com.example.wantedpreonboardingbackend.dto.post.PostPaginationResponseDto;
 import com.example.wantedpreonboardingbackend.dto.post.PostResponseDto;
 import com.example.wantedpreonboardingbackend.dto.post.PostWriteRequestDto;
@@ -37,5 +38,10 @@ public class PostController {
         PostPaginationResponseDto responseDto = postService.getAllPosts(pageable);
 
         return ResponseEntity.ok(responseDto);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDetailResponseDto> getPostDetail(@PathVariable Long id) {
+        PostDetailResponseDto postDetail = postService.getPostDetailById(id);
+        return ResponseEntity.ok(postDetail);
     }
 }

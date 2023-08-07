@@ -2,10 +2,7 @@ package com.example.wantedpreonboardingbackend.service;
 
 import com.example.wantedpreonboardingbackend.domain.Post;
 import com.example.wantedpreonboardingbackend.domain.User;
-import com.example.wantedpreonboardingbackend.dto.post.PostPaginationResponseDto;
-import com.example.wantedpreonboardingbackend.dto.post.PostResponseDto;
-import com.example.wantedpreonboardingbackend.dto.post.PostWriteRequestDto;
-import com.example.wantedpreonboardingbackend.dto.post.PostsResponseDto;
+import com.example.wantedpreonboardingbackend.dto.post.*;
 import com.example.wantedpreonboardingbackend.repository.PostRepository;
 import com.example.wantedpreonboardingbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +38,7 @@ public class PostService {
         Post savedPost = postRepository.save(post);
 
         return PostResponseDto.builder()
-                .id((long) savedPost.getId())
+                .id(savedPost.getId())
                 .title(savedPost.getTitle())
                 .content(savedPost.getContent())
                 .build();
@@ -58,5 +55,15 @@ public class PostService {
                 .build();
     }
 
+    public PostDetailResponseDto getPostDetailById(Long id){
+        Post post = postRepository.findPostById(id);
+        return PostDetailResponseDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .name(post.getUser().getName())
+                .createdAt(post.getCreatedAt())
+                .build();
+    }
 
 }

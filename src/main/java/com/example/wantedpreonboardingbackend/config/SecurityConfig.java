@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/post/all").permitAll()
-                .antMatchers("/post/**").authenticated()
-                .anyRequest().authenticated()
+                .antMatchers("/post/create", "/post/update", "/post/delete").authenticated()
+                .anyRequest().permitAll() // 이외의 요청은 모두 permitAll()로 설정
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
