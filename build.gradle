@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'com.palantir.docker-compose' version '0.33.0'
 }
 
 group = 'com.example'
@@ -17,7 +18,9 @@ configurations {
 repositories {
     mavenCentral()
 }
-
+dockerCompose {
+    dockerComposeFile 'docker-compose.yml'
+}
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
